@@ -39,7 +39,7 @@ During the running of the state machine, the library does not allocate or free m
 This library is a derivate work based on [tirimatangi/CoFSM](https://github.com/tirimatangi/CoFSM).
 The main differences compared to the original library are:
 - simplified the architecture allowing a higher flexibility to implement events;
-- changed the identification of events from text (string) to numeric id;
+- changed the identification of events from text (string) to numeric id; nevertheless the ids can be serialized as texts;
 - the automaton allows the customization of "state handle - event id" pair and their hashing;
 - changed the coding style to standard-library like coding style;
 - adapted examples.
