@@ -1,0 +1,23 @@
+# Compiled source
+*.a
+*.d
+*.dll
+*.dylib
+*.exe
+*.la
+*.lai
+*.lib
+*.lo
+*.o
+*.obj
+*.out
+*.slo
+*.so
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Qbs project
+*.user
+
