@@ -40,7 +40,7 @@ This library is a derivate work based on [tirimatangi/CoFSM](https://github.com/
 The main differences compared to the original library are:
 - simplified the architecture allowing a higher flexibility to implement events;
 - changed the identification of events from text (string) to numeric id; nevertheless the ids can be serialized as texts;
-- the automaton allows the customization of "state handle - event id" pair and their hashing;
+- transition map flexibility by customization of "state handle - event id" pair and their hashing;
 - changed the coding style to standard-library like coding style;
 - adapted examples.
 
