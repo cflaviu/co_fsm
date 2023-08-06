@@ -17,11 +17,11 @@
 # co_fsm - a finite state machine library based on coroutine symmetric transfer
 co_fsm is a C++20 header-only finite state machine library.
 The states are represented as coroutines which `co_await` for events.
-This makes it possible to do things like
-- Suspend the execution of FSM and later resume either from the state where it left off when it was suspended, or from another other state (see the [first example](#first-example)).
-- Make changes to the transition table during the life-time of the FSM object (see [this example](#example-connect-and-separate-fsms-running-in-separate-threads-in-runtime)).
-- Programmatically create arbitrarily many states and arbitrarily large transition tables without manual configuration (see [this example](#example-configure-an-fsm-programmatically-and-measure-the-speed-of-execution)).
-- Connect and disconnect FSMs living in separate source files without having to recompile everything. So a state in one FSM can send an event to a state in another FSM (see [this example](#example-connect-and-separate-fsms-running-in-separate-threads-in-runtime)).
+This makes it possible to do things like:
+- Suspend the execution of FSM and later resume either from the state where it left off when it was suspended, or from another other state;
+- Make changes to the transition table during the life-time of the FSM object;
+- Programmatically create arbitrarily many states and arbitrarily large transition tables without manual configuration;
+- Connect and disconnect FSMs living in separate source files without having to recompile everything. So a state in one FSM can send an event to a state in another FSM;
 - Suspend the execution of the FSM in one thread and resume in another thread.
 
 Events are light-weight objects consisting of a name and an optional data buffer.
