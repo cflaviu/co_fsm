@@ -1,0 +1,38 @@
+name: Windows Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types:
+      - published
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        mode: [ Debug, Release ]
+        arch: [ amd64, x86 ]
+
+    env:
+      CXX: cl.exe
+      CC: cl.exe
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install Qbs
+        run: choco install qbs
+
+      - name: Build
+        run: qbs build config:release
+        

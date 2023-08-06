@@ -1,0 +1,79 @@
+name: Linux Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types:
+      - published
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        config:
+          - name: GCC 12 Release
+            cxx: g++-12
+            cc: gcc-12
+            mode: Release
+          - name: GCC 12 Debug
+            cxx: g++-12
+            cc: gcc-12
+            mode: Debug
+            valgrind: true
+          - name: Clang 16 Release
+            cxx: clang++-16
+            cc: clang-16
+            mode: Release
+            cxxflags: -stdlib=libc++
+            ldflags: -lc++abi
+          - name: Clang 16 Debug
+            cxx: clang++-16
+            cc: clang-16
+            mode: Debug
+            fuzz: true
+          - key: GCC 12 Sanitizer
+            cxx: g++-12
+            cc: gcc-12
+            mode: Debug
+            cflags: -fsanitize=address,undefined -fno-omit-frame-pointer
+            cxxflags: -fsanitize=address,undefined -fno-omit-frame-pointer
+
+    env:
+      UBSAN_OPTIONS: halt_on_error=1:abort_on_error=1
+    steps:
+      - uses: actions/checkout@v3
+
+      # ==== INSTALL ====
+      - name: Install GCC
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: sudo apt-get install -y gcc-12
+
+      - name: Install Clang
+        if: matrix.config.cc == 'clang-16'
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 16 || sudo ./llvm.sh 16 workaround
+          rm llvm.sh
+          sudo apt-get install -y --no-install-recommends libstdc++-12-dev libc++-16-dev libc++abi-16-dev clang-tidy-16 libunwind-16-dev llvm-16 libfuzzer-16-dev
+
+      - name: Install Qbs
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: sudo apt-get install -y qbs
+
+      # ==== BUILD ====
+      - name: Build
+        run: qbs build config:release
