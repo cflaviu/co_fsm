@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         config:
@@ -72,7 +72,7 @@ jobs:
       - name: Install Qbs
         env:
           DEBIAN_FRONTEND: noninteractive
-        run: sudo apt-get install -y qbs
+        run: sudo apt-get update && sudo apt-get install -y qbs
 
       # ==== BUILD ====
       - name: Build
