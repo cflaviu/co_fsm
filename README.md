@@ -24,8 +24,8 @@ This makes it possible to do things like:
 - Connect and disconnect FSMs living in separate source files without having to recompile everything. So a state in one FSM can send an event to a state in another FSM;
 - Suspend the execution of the FSM in one thread and resume in another thread.
 
-Events are light-weight objects consisting of a name and an optional data buffer.
-Neither the states nor the events need to be inherited from a common base class.
+Events are objects instantiated from a customized class derived from an event base class.
+The event base class has an optional identifier that is used to validate and invalidate events.
 
 The library uses [symmetric transfer](https://lewissbaker.github.io/2020/05/11/understanding_symmetric_transfer)
 in transiting from one state to another. This makes the transitions quite fast.
