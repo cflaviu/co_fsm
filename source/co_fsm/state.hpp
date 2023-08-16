@@ -73,7 +73,11 @@ namespace co_fsm
         state& operator= (const state&) = delete;
         state& operator= (state&& other) noexcept
         {
-            handle_ = std::exchange(other.handle_, nullptr);
+            if (&other != this)
+            {
+                handle_ = std::exchange(other.handle_, nullptr);
+            }
+
             return *this;
         }
 

@@ -37,8 +37,12 @@ namespace co_fsm
 
         event_base& operator= (event_base&& item) noexcept
         {
-            id_ = std::move(item.id_);
-            item.invalidate(); // Invalidation of source event.
+            if (&item != this)
+            {
+                id_ = std::move(item.id_);
+                item.invalidate(); // Invalidation of source event.
+            }
+
             return *this;
         }
 
